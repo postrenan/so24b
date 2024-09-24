@@ -12,6 +12,8 @@
 #include "terminal.h"
 #include "es.h"
 #include "dispositivos.h"
+#include "rand.h"
+#include <time.h>  
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -102,18 +104,19 @@ static void init_mem(mem_t *mem, char *nome_do_executavel)
 int main(int argc, char *argv[])
 {
   hardware_t hw;
-  char *nome_do_programa = "ex1.maq";
-  if (argc > 1) nome_do_programa = argv[1];
+    char *nome_do_programa = "ex1.maq";
+    if (argc > 1) nome_do_programa = argv[1];
 
-  // cria o hardware
-  cria_hardware(&hw);
-  // coloca um programa na memória
-  init_mem(hw.mem, nome_do_programa);
+    rand_inicializa(time(NULL));
 
-  // executa o laço principal do controlador
-  controle_laco(hw.controle);
+    cria_hardware(&hw);
 
-  // destroi tudo
-  destroi_hardware(&hw);
+    init_mem(hw.mem, nome_do_programa);
+
+    controle_laco(hw.controle);
+
+    destroi_hardware(&hw);
+
+    return 0;
 }
 
